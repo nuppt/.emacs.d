@@ -1,0 +1,6 @@
+[submodule "packages/ProofGeneral"]
+	path = packages/ProofGeneral
+	url = https://github.com/ProofGeneral/PG.git
+[submodule "packages/emacs-color-theme-solarized"]
+	path = packages/emacs-color-theme-solarized
+	url = https://github.com/ProofGeneral/PG.git
