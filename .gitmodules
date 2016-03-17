@@ -3,4 +3,25 @@
 	url = https://github.com/ProofGeneral/PG.git
 [submodule "packages/emacs-color-theme-solarized"]
 	path = packages/emacs-color-theme-solarized
-	url = https://github.com/ProofGeneral/PG.git
+	url = https://github.com/sellout/emacs-color-theme-solarized.git
+[submodule "packages/company-irony-c-headers"]
+	path = packages/company-irony-c-headers
+	url = https://github.com/hotpxl/company-irony-c-headers.git
+[submodule "packages/company-irony"]
+	path = packages/company-irony
+	url = https://github.com/Sarcasm/company-irony.git
+[submodule "packages/irony-mode"]
+	path = packages/irony-mode
+	url = https://github.com/Sarcasm/irony-mode.git
+[submodule "packages/theme-changer"]
+	path = packages/theme-changer
+	url = https://github.com/hadronzoo/theme-changer.git
+[submodule "packages/emacs-async"]
+	path = packages/emacs-async
+	url = https://github.com/jwiegley/emacs-async.git
+[submodule "packages/emacs-clang-complete-async"]
+	path = packages/emacs-clang-complete-async
+	url = https://github.com/Golevka/emacs-clang-complete-async.git
+[submodule "packages/company-mode"]
+	path = packages/company-mode
+	url = https://github.com/company-mode/company-mode.git
