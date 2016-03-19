@@ -1,8 +1,4 @@
 ;; Global enrionment variables
-(if (string-equal system-type "windows-nt")
-    (progn (setenv "HOME" "C:/Users/yangchen")
-	   (setenv "PATH" "C:/Users/yangchen")))
-
 (setq default-directory "~/")
 (setq recentf-save-file "~/.emacs.d/recentf")
 
