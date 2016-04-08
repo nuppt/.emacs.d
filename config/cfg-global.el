@@ -36,21 +36,9 @@
 ;; delete tail-whitespace before saving
 (add-hook 'before-save-hook (lambda () (whitespace-cleanup)))
 
-;; Êõ¥Êñ∞ÂΩìÂâçbuffer‰∏éÂØπÂ∫îÁöÑdisk‰∏äÂÜÖÂÆπ‰∏ÄËá¥
+;; ∏¸–¬µ±«∞buffer”Î∂‘”¶µƒdisk…œƒ⁄»›“ª÷¬
 (global-set-key (kbd "C-=") 'revert-buffer)
 
-
-;;(defun set-exec-path-from-shell-PATH ()
-;;  (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo %PATH%'")))
-;;    (setenv "PATH" path-from-shell)
-;;    (setq exec-path (split-string path-from-shell path-separator))))
-
-;;(if (display-graphic-p)
-;;    (set-exec-path-from-shell-PATH))
-
-;;(if (not (string-equal system-type "windows-nt"))
-;;    (progn (setenv "PATH" (concat "/Library/TeX/texbin:/usr/local/bin:" (getenv "PATH")))
-;;	   (setq exec-path (append '("/Library/TeX/texbin" "/usr/local/bin") exec-path))))
 
 
 (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
@@ -61,6 +49,33 @@
 (set-terminal-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
+
+(if (eq system-type  'windows-nt)
+    (prefer-coding-system 'gb2312))
+
+(if (eq system-type 'windows-nt)
+    (setq buffer-file-coding-system 'gb2312))
+
+
+;; Set exec-path for Windows, OSX and Linux
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell (shell-command-to-string (concat "echo -n "
+							  (if (string-equal system-type "windows-nt")
+							      "%PATH%'"
+							    "%PATH")))))
+    (progn (setenv "PATH" path-from-shell)
+	   (setq exec-path (split-string path-from-shell path-separator)))))
+
+
+;; I cann't execute 'echo %PATH%' command in shell-mode of emacs on windows.
+;; If anybody can fix it, please tell me.
+(if (and (display-graphic-p)
+	 (not (string-equal system-name "windows-nt")))
+    (set-exec-path-from-shell-PATH))
+
+(if (not (string-equal system-name "windows-nt"))
+    (progn (setenv "PATH" (concat "/Library/TeX/texbin:/usr/local/bin:" (getenv "PATH")))
+	   (setq exec-path (append '("/Library/TeX/texbin" "/usr/local/bin") exec-path))))
 
 
 
