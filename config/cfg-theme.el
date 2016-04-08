@@ -1,7 +1,6 @@
 (add-to-list 'custom-theme-load-path (concat packages-path "emacs-color-theme-solarized/"))
 ;;(require-package 'emacs-color-theme-solarized)
 
-
 ;; Globally map C-c t to a light/dark theme switcher
 ;; Also pull-in graphene for better fonts
 

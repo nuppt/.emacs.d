@@ -40,17 +40,18 @@
 (global-set-key (kbd "C-=") 'revert-buffer)
 
 
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
+;;(defun set-exec-path-from-shell-PATH ()
+;;  (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo %PATH%'")))
+;;    (setenv "PATH" path-from-shell)
+;;    (setq exec-path (split-string path-from-shell path-separator))))
 
-(if window-system
-    (set-exec-path-from-shell-PATH)
-  )
+;;(if (display-graphic-p)
+;;    (set-exec-path-from-shell-PATH))
 
-(setenv "PATH" (concat "/Library/TeX/texbin:/usr/local/bin:" (getenv "PATH")))
-(setq exec-path (append '("/Library/TeX/texbin" "/usr/local/bin") exec-path))
+;;(if (not (string-equal system-type "windows-nt"))
+;;    (progn (setenv "PATH" (concat "/Library/TeX/texbin:/usr/local/bin:" (getenv "PATH")))
+;;	   (setq exec-path (append '("/Library/TeX/texbin" "/usr/local/bin") exec-path))))
+
 
 (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
 (set-language-environment 'utf-8)
@@ -60,6 +61,7 @@
 (set-terminal-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
+
 
 
 (provide 'cfg-global)
