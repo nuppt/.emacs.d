@@ -1,3 +1,4 @@
+;; Global enrionment variables
 (setq default-directory "~/")
 (setq recentf-save-file "~/.emacs.d/recentf")
 
