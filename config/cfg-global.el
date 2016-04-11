@@ -57,7 +57,6 @@
 
 (if (eq system-type  'windows-nt)
     (prefer-coding-system 'gb2312))
-
 (if (eq system-type 'windows-nt)
     (setq buffer-file-coding-system 'gb2312))
 
