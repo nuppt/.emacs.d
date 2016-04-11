@@ -16,6 +16,9 @@
 ;; show extra whitespace
 (setq show-trailing-whitespace t)
 
+;; disable tabs
+(setq-default indent-tabs-mode nil)
+
 ;; hide empty line fringe
 (set-default 'indicate-empty-lines nil)
 
@@ -39,7 +42,9 @@
 ;; 更新当前buffer与对应的disk上内容一致
 (global-set-key (kbd "C-=") 'revert-buffer)
 
-
+(if (string-equal system-type "windows-nt")
+    (progn (global-unset-key (kbd "C-SPC"))
+           (global-set-key (kbd "M-SPC") 'set-mark-command)))
 
 (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
 (set-language-environment 'utf-8)
@@ -60,22 +65,24 @@
 ;; Set exec-path for Windows, OSX and Linux
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell (shell-command-to-string (concat "echo -n "
-							  (if (string-equal system-type "windows-nt")
-							      "%PATH%'"
-							    "%PATH")))))
+                                                          (if (string-equal system-type "windows-nt")
+                                                              "%PATH%'"
+                                                            "%PATH")))))
     (progn (setenv "PATH" path-from-shell)
-	   (setq exec-path (split-string path-from-shell path-separator)))))
+           (setq exec-path (split-string path-from-shell path-separator)))))
 
 
 ;; I cann't execute 'echo %PATH%' command in shell-mode of emacs on windows.
 ;; If anybody can fix it, please tell me.
 (if (and (display-graphic-p)
-	 (not (string-equal system-name "windows-nt")))
+         (not (string-equal system-type "windows-nt")))
     (set-exec-path-from-shell-PATH))
 
-(if (not (string-equal system-name "windows-nt"))
+(if (not (string-equal system-type "windows-nt"))
     (progn (setenv "PATH" (concat "/Library/TeX/texbin:/usr/local/bin:" (getenv "PATH")))
-	   (setq exec-path (append '("/Library/TeX/texbin" "/usr/local/bin") exec-path))))
+           (setq exec-path (append '("/Library/TeX/texbin" "/usr/local/bin") exec-path))))
+
+
 
 
 
