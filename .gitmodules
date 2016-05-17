@@ -25,3 +25,6 @@
 [submodule "packages/company-mode"]
 	path = packages/company-mode
 	url = https://github.com/company-mode/company-mode.git
+[submodule "packages/boogie-friends"]
+	path = packages/boogie-friends
+	url = https://github.com/boogie-org/boogie-friends.git

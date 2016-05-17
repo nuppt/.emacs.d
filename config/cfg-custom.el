@@ -1,6 +1,5 @@
-;;(setq custom-file (concat base-path "custom.el"))
+(setq custom-file (concat base-path "custom.el"))
 ;;(setq custom-file "~/.emacs.d/custom.el")
-(setq custom-file "~/custom.el")
 (load custom-file)
 
 (provide 'cfg-custom)

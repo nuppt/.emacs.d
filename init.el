@@ -1,8 +1,4 @@
 ;; Global enrionment variables
-(if (string-equal system-type "windows-nt")
-    (progn (setenv "HOME" "C:/Users/yangchen")
-	   (setenv "PATH" "C:/Users/yangchen")))
-
 (setq default-directory "~/")
 (setq recentf-save-file "~/.emacs.d/recentf")
 
@@ -31,6 +27,7 @@
 (require 'cfg-org-mode)
 (require 'cfg-c-cpp-ide-mode)
 (require 'cfg-markdown-mode)
+;;(require 'cfg-boogie-friends-mode)
 (require 'cfg-z3-smtlib2-mode)
 (require 'cfg-coq-mode)
 (require 'cfg-scheme-mode)

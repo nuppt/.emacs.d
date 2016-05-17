@@ -4,7 +4,6 @@
 (set-frame-parameter nil 'background-mode 'dark)    ;;选择solarized dark
 (enable-theme 'solarized)
 
-
 ;; Globally map C-c t to a light/dark theme switcher
 ;; Also pull-in graphene for better fonts
 (custom-set-variables '(solarized-termcolors 256))
