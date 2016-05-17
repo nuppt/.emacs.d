@@ -5,14 +5,16 @@
 ;; Main package repositories
 
 ;;; Also use Melpa for most packages
+;;(if (< emacs-major-version 24)
+;;    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+;;  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
+;;
+;;(when (< emacs-major-version 24)
+;;  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+;;  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
 
-(if (< emacs-major-version 24)
-    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
-
-(when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
+(add-to-list 'package-archives
+	     '("popkit" . "http://elpa.popkit.org/packages/"))
 
 (defun require-package (package &optional min-version no-refresh)
   "Install given PACKAGE, optionally requiring MIN-VERSION.

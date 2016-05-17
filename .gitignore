@@ -25,3 +25,4 @@ ido.last
 *.eld
 snippets/
 cdb-json-projects
+irony/bin/irony-server

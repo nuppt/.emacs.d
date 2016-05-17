@@ -34,6 +34,7 @@
 (require 'cfg-z3-smtlib2-mode)
 (require 'cfg-coq-mode)
 (require 'cfg-scheme-mode)
+(require 'cfg-lua-mode)
 
 (provide 'init)
 (custom-set-variables

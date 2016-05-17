@@ -6,13 +6,25 @@
 ;; 快速打开自己的GTD文件
 (defun gtd ()
   (interactive)
-  (find-file (concat gtd-directory "/Lab.org")) ; 项目 + 论文 in 实验室
-  (find-file (concat gtd-directory "/interests.org")))  ; 自我修炼
+  (find-file (concat gtd-directory "/Lab.org"))
+  (find-file (concat gtd-directory "/interests.org"))
+  (find-file (concat gtd-directory "/english.org")))
 
 
 ;; gtd.org加入到日程表文件中
 (setq org-agenda-files (list (concat gtd-directory "/Lab.org")
-			     (concat gtd-directory "/interests.org")))
+			     (concat gtd-directory "/interests.org")
+			     (concat gtd-directory "/english.org")))
+
+
+;; global config of todolist keywords
+(setq org-todo-keywords '((sequence "HANDLING(h)" "WAITING(w)" "TODO(t)" "|" "DONE(d)" "CANCEL(c)")))
+
+(setq org-todo-keyword-faces '(("HANDLING" . "yellow")
+			       ("WAITING" . "blue")
+			       ("TODO" . "red")
+			       ("DONE" . "green")
+			       ("CANCEL" . "gray")))
 
 
 ;; 设置org-mode中的缩进，使得编写时，整个org file排版更加美观。
@@ -43,7 +55,7 @@
    (sh . t)))
 
 ;; 设置显示UTF-8字符
-(setq org-pretty-entities t)
+;;(setq org-pretty-entities t)
 
 ;; basic shortcut key
 (global-set-key "\C-cl" 'org-store-link)
