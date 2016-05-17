@@ -2,6 +2,8 @@
 (add-to-list 'load-path (concat packages-path "org-mode/contrib/lisp/"))
 
 (defvar gtd-directory "~/Dropbox/个人计划文档")
+(if (string-equal system-type "windows-nt")
+    (setq gtd-directory "e:/Dropbox/个人计划文档"))  ;; modify for your directory properly
 
 ;; 快速打开自己的GTD文件
 (defun gtd ()
