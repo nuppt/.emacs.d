@@ -42,6 +42,8 @@
 ;; 更新当前buffer与对应的disk上内容一致
 (global-set-key (kbd "C-=") 'revert-buffer)
 
+
+;; avoid the conflict between ShortKey of changing inputMethods and setting of anchor point of emacs on Windows-System
 (if (string-equal system-type "windows-nt")
     (progn (global-unset-key (kbd "C-SPC"))
            (global-set-key (kbd "M-SPC") 'set-mark-command)))
@@ -52,7 +54,7 @@
 (setq locale-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
+;;(set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
 (if (eq system-type  'windows-nt)
@@ -77,12 +79,26 @@
          (not (string-equal system-type "windows-nt")))
     (set-exec-path-from-shell-PATH))
 
+
+;; Set env/exec-path for linux/Mac
+;;(defun set-env-for-linux-or-mac ()
+;;  "Set env/exec-path for linux/Mac"
+;;  (progn (setenv "PATH" (concat "/Library/TeX/texbin:/usr/local/bin:" (getenv "PATH")))
+;;           (setq exec-path (append '("/Library/TeX/texbin" "/usr/local/bin") exec-path))))
+;;(defun set-env-for-windows ()
+;;  "Set env/exec-path for windows"
+;;  (progn ;;(setenv "SHELL" "D:/cmder")
+;;         (setenv "PATH" (concat "D:/Coq/bin;D:/emacs/bin;D:/mit-scheme;D:/Z3;D:/Python27;E:/CodeSet/Lab/Clang/build/Debug/bin"
+;;                                (getenv "PATH")))
+;;         (setq exec-path (append '("D:/Coq/bin" "D:/emacs/bin" "D:/mit-scheme" "D:/Z3" "D:/Python27" "E:/CodeSet/Lab/Clang/build/Debug/bin")
+;;                                 exec-path))))
+
+
+
 (if (not (string-equal system-type "windows-nt"))
     (progn (setenv "PATH" (concat "/Library/TeX/texbin:/usr/local/bin:" (getenv "PATH")))
-           (setq exec-path (append '("/Library/TeX/texbin" "/usr/local/bin") exec-path))))
-
-
-
-
+           (setq exec-path (append '("/Library/TeX/texbin" "/usr/local/bin") exec-path)))
+  (progn (setenv "PATH" (concat "D:/Program Files (x86)/MIT-GNU Scheme/bin:" (getenv "PATH")))
+         (setq exec-path (append '("D:/Program Files (x86)/MIT-GNU Scheme/bin") exec-path))))
 
 (provide 'cfg-global)
