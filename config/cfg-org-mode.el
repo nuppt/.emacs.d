@@ -47,14 +47,15 @@
 ;; keybinding for toggling soft word wrapping mode
 (global-set-key (kbd "<f7>") 'toggle-truncate-lines)
 
-;; 配置Org-mode中所支持的变成语言
+;; 配置Org-mode中所支持的编程语言
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((python . t)
    (C . t)
    (lisp . t)
    (scheme . t)
-   (sh . t)))
+   (sh . t)
+   (emacs-lisp . t)))
 
 ;; 设置显示UTF-8字符
 ;;(setq org-pretty-entities t)
@@ -75,18 +76,6 @@
 ;;		'(:time "2h" :period "5m" :actions -message)
 ;;		'(:time "3d" :actions -email))
 
-
-;; setting of exporting from org into pdf
-(setq org-latex-pdf-process
-  '("xelatex -shell-escape -interaction nonstopmode %f"
-    "xelatex -shell-escape -interaction nonstopmode %f"
-    "xelatex -shell-escape -interaction nonstopmode %f"
-    "xelatex -shell-escape -interaction nonstopmode %f"
-    "rm -f %o/%b*.vrb")) ;; for multiple passes
-
-;; Stop org from keep the tables centered
-(setq org-latex-tables-centered nil)
-(setq org-latex-listings 'minted)
 
 (defvar en-article "
 \\documentclass{scrartcl}
@@ -143,8 +132,33 @@
   (concat en-beamer zh-preamble))
 
 
-;(add-to-list 'load-path "~/.emacs.d/source-packages/org-mode-engine/")
+
 (require 'ox-latex)
+
+;; Stop org from keep the tables centered
+(setq org-latex-tables-centered nil)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+
+;; setting of exporting from org into pdf
+;;(setq org-latex-pdf-process
+;;  '("xelatex -shell-escape -interaction nonstopmode %f"
+;;    "xelatex -shell-escape -interaction nonstopmode %f"
+;;    "xelatex -shell-escape -interaction nonstopmode %f"
+;;    "xelatex -shell-escape -interaction nonstopmode %f"
+;;    ;;"rm -f %o/%b*.vrb"
+;;    )) ;; for multiple passes
+
+
+(setq org-latex-pdf-process
+      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+(setq org-src-fontify-natively t)
+
+
+
 (require 'ox-beamer)
 (unless (boundp 'org-latex-classes)
   (setq org-latex-classes nil))
@@ -196,6 +210,13 @@ unwanted space when exporting org-mode to html."
                           "\\1\\2" orig-contents))
     (ad-set-arg 1 fixed-contents)))
 
+(defun fci-mode-override-advice (&rest args))
+(advice-add 'org-html-fontify-code :around
+            (lambda (fun &rest args)
+              (advice-add 'fci-mode :override #'fci-mode-override-advice)
+              (let ((result  (apply fun args)))
+                (advice-remove 'fci-mode #'fci-mode-override-advice)
+                result)))
 
 
 (provide 'cfg-org-mode)

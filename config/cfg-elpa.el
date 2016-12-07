@@ -5,16 +5,16 @@
 ;; Main package repositories
 
 ;;; Also use Melpa for most packages
-;;(if (< emacs-major-version 24)
-;;    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-;;  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
-;;
-;;(when (< emacs-major-version 24)
-;;  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-;;  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
+(if (< emacs-major-version 24)
+    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))
+
+(when (< emacs-major-version 24)
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
 
 (add-to-list 'package-archives
-	     '("popkit" . "http://elpa.popkit.org/packages/"))
+             '("popkit" . "http://elpa.popkit.org/packages/"))
 
 (defun require-package (package &optional min-version no-refresh)
   "Install given PACKAGE, optionally requiring MIN-VERSION.
@@ -23,13 +23,13 @@ re-downloaded in order to locate PACKAGE."
   (if (package-installed-p package min-version)
       t
     (if (or (assoc package package-archive-contents) no-refresh)
-	(if (boundp 'package-selected-packages)
-	    ;; Record this as a package the user installed explicitly
-	    (package-install package nil)
-	  (package-install package))
+        (if (boundp 'package-selected-packages)
+            ;; Record this as a package the user installed explicitly
+            (package-install package nil)
+          (package-install package))
       (progn
-	(package-refresh-contents)
-	(require-package package min-version t)))))
+        (package-refresh-contents)
+        (require-package package min-version t)))))
 
 
 (defun maybe-require-package (package &optional min-version no-refresh)
