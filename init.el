@@ -24,6 +24,7 @@
 
 ;; config for programming
 (require 'cfg-general-programming)
+(require 'cfg-slime)
 (require 'cfg-org-mode)
 (require 'cfg-c-cpp-ide-mode)
 (require 'cfg-markdown-mode)

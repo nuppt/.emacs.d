@@ -15,24 +15,24 @@
 
 ;; gtd.org加入到日程表文件中
 (setq org-agenda-files (list (concat gtd-directory "/Lab.org")
-			     (concat gtd-directory "/interests.org")
-			     (concat gtd-directory "/english.org")))
+                             (concat gtd-directory "/interests.org")
+                             (concat gtd-directory "/english.org")))
 
 
 ;; global config of todolist keywords
 (setq org-todo-keywords '((sequence "HANDLING(h)" "WAITING(w)" "TODO(t)" "|" "DONE(d)" "CANCEL(c)")))
 
 (setq org-todo-keyword-faces '(("HANDLING" . "yellow")
-			       ("WAITING" . "blue")
-			       ("TODO" . "red")
-			       ("DONE" . "green")
-			       ("CANCEL" . "gray")))
+                               ("WAITING" . "blue")
+                               ("TODO" . "red")
+                               ("DONE" . "green")
+                               ("CANCEL" . "gray")))
 
 
 ;; 设置org-mode中的缩进，使得编写时，整个org file排版更加美观。
 (add-hook 'org-mode-hook
-	  (lambda ()
-	    (org-indent-mode t)) t)
+          (lambda ()
+            (org-indent-mode t)) t)
 
 ;; 设置inline image的实时显示
 (add-to-list 'load-path (concat packages-path "inline-image/"))
@@ -47,14 +47,15 @@
 ;; keybinding for toggling soft word wrapping mode
 (global-set-key (kbd "<f7>") 'toggle-truncate-lines)
 
-;; 配置Org-mode中所支持的变成语言
+;; 配置Org-mode中所支持的编程语言
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((python . t)
    (C . t)
    (lisp . t)
    (scheme . t)
-   (sh . t)))
+   (sh . t)
+   (emacs-lisp . t)))
 
 ;; 设置显示UTF-8字符
 ;;(setq org-pretty-entities t)
@@ -75,18 +76,6 @@
 ;;		'(:time "2h" :period "5m" :actions -message)
 ;;		'(:time "3d" :actions -email))
 
-
-;; setting of exporting from org into pdf
-(setq org-latex-pdf-process
-  '("xelatex -shell-escape -interaction nonstopmode %f"
-    "xelatex -shell-escape -interaction nonstopmode %f"
-    "xelatex -shell-escape -interaction nonstopmode %f"
-    "xelatex -shell-escape -interaction nonstopmode %f"
-    "rm -f %o/%b*.vrb")) ;; for multiple passes
-
-;; Stop org from keep the tables centered
-(setq org-latex-tables-centered nil)
-(setq org-latex-listings 'minted)
 
 (defvar en-article "
 \\documentclass{scrartcl}
@@ -143,59 +132,91 @@
   (concat en-beamer zh-preamble))
 
 
-;(add-to-list 'load-path "~/.emacs.d/source-packages/org-mode-engine/")
+
 (require 'ox-latex)
+
+;; Stop org from keep the tables centered
+(setq org-latex-tables-centered nil)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+
+;; setting of exporting from org into pdf
+;;(setq org-latex-pdf-process
+;;  '("xelatex -shell-escape -interaction nonstopmode %f"
+;;    "xelatex -shell-escape -interaction nonstopmode %f"
+;;    "xelatex -shell-escape -interaction nonstopmode %f"
+;;    "xelatex -shell-escape -interaction nonstopmode %f"
+;;    ;;"rm -f %o/%b*.vrb"
+;;    )) ;; for multiple passes
+
+
+(setq org-latex-pdf-process
+      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+(setq org-src-fontify-natively t)
+
+
+
 (require 'ox-beamer)
 (unless (boundp 'org-latex-classes)
   (setq org-latex-classes nil))
 
 (add-to-list 'org-latex-classes
-	     `("article"
-	       ,en-article
-	       ("\\section{%s}" . "\\section*{%s}")
-	       ("\\subsection{%s}" . "\\subsection*{%s}")
-	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-	       ("\\paragraph{%s}" . "\\paragraph*{%s}")
-	       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+             `("article"
+               ,en-article
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 (add-to-list 'org-latex-classes
-	      `("cn-article"
-		,cn-article
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-		("\\paragraph{%s}" . "\\paragraph*{%s}")
-		("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+              `("cn-article"
+                ,cn-article
+                ("\\section{%s}" . "\\section*{%s}")
+                ("\\subsection{%s}" . "\\subsection*{%s}")
+                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 (add-to-list 'org-latex-classes
-	      `("beamer"
-		,en-beamer
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-		("\\paragraph{%s}" . "\\paragraph*{%s}")
-		("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+              `("beamer"
+                ,en-beamer
+                ("\\section{%s}" . "\\section*{%s}")
+                ("\\subsection{%s}" . "\\subsection*{%s}")
+                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 (add-to-list 'org-latex-classes
-	      `("cn-beamer"
-		,cn-beamer
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-		("\\paragraph{%s}" . "\\paragraph*{%s}")
-		("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+              `("cn-beamer"
+                ,cn-beamer
+                ("\\section{%s}" . "\\section*{%s}")
+                ("\\subsection{%s}" . "\\subsection*{%s}")
+                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 
 (defadvice org-html-paragraph (before fsh-org-html-paragraph-advice
-				      (paragraph contents info) activate)
+                                      (paragraph contents info) activate)
   "Join consecutive Chinese lines into a single long line without
 unwanted space when exporting org-mode to html."
   (let ((fixed-contents)
-	(orig-contents (ad-get-arg 1))
-	(reg-han "[[:multibyte:]]"))
+        (orig-contents (ad-get-arg 1))
+        (reg-han "[[:multibyte:]]"))
     (setq fixed-contents (replace-regexp-in-string
-			  (concat "\\(" reg-han
-				  "\\) *\n *\\(" reg-han "\\)")
-			  "\\1\\2" orig-contents))
+                          (concat "\\(" reg-han
+                                  "\\) *\n *\\(" reg-han "\\)")
+                          "\\1\\2" orig-contents))
     (ad-set-arg 1 fixed-contents)))
 
+(defun fci-mode-override-advice (&rest args))
+(advice-add 'org-html-fontify-code :around
+            (lambda (fun &rest args)
+              (advice-add 'fci-mode :override #'fci-mode-override-advice)
+              (let ((result  (apply fun args)))
+                (advice-remove 'fci-mode #'fci-mode-override-advice)
+                result)))
 
 
 (provide 'cfg-org-mode)
